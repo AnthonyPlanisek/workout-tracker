@@ -52,7 +52,9 @@ app.get('/api/workouts', (req, res) => {
 // })
 
 app.put('/api/workouts/:id', ({ params }, res) => {
-  
+
+  console.log('PUT', params)
+
   db.workout.update(
     {
       _id: mongojs.ObjectId(params.id)
