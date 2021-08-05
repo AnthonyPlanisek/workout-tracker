@@ -3,13 +3,27 @@ const Workout = require("../models/Workout.js");
 
 router.get('/api/workouts/range', (req, res) => {
     Workout.find({})
-      .then(dbWorkout => {
-          res.json(dbWorkout)
+    .then(dbWorkouts => {
+      const workouts = dbWorkouts.map(workout => {
+          console.log(workout);
+          const duration = workout.exercises.reduce((acc,next) => {
+              return acc + next.duration;
+          }, 0);
+
+          console.log("durationnnnnnnnn", duration)
+
+          return {
+              
+              totalDuration: duration, 
+              ...workout.toObject()
+          }
       })
-      .catch(err => {
-        res.status(400).json(err);
-      })
+      res.json(workouts); 
   })
+  .catch(err => {
+      res.json(err); 
+  });
+});
   
   // router.get('/api/workouts', async (req, res) => {
   //   try {
